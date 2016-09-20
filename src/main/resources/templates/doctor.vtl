@@ -1,0 +1,12 @@
+<h1>$doctor.getName() ($doctor.getSpecialty())</h1>
+<a href="/doctors/$doctor.getId()/edit"><button type="button" name="button">Edit</button></a>
+
+<h3>Patients:</h3>
+<ul>
+  #foreach($patient in $doctor.getPatients())
+    <li><a href="/doctors/$doctor.getId()/patients/$patient.getId()">$patient.getName()</a></li>
+  #end
+</ul>
+
+<a href="/doctors/$doctor.getId()/patients/new"><button type="button" class="btn btn-success">Add a new patient</button></a>
+<a href="/doctors"><button type="button" class="btn btn-primary">Go back</button></a>

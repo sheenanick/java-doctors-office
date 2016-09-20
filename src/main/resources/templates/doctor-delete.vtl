@@ -1,0 +1,6 @@
+<h1>Are you sure you want to delete $doctor.getName()?</h1>
+<form action="/doctordelete" method="post">
+  <input id="doctorId" name="doctorId" type="hidden" value="$doctor.getId()">
+  <button type="submit" class="btn btn-danger">Delete</button>
+  <a href="/doctors/$doctor.getId()"><button type="button" class="btn btn-primary">Go back</button></a>
+</form>

@@ -1,0 +1,13 @@
+<h1>Edit Doctor information</h1>
+
+<form action="/doctoredit" method="post">
+  <input id="doctorId" name="doctorId" type="hidden" value="$doctor.getId()">
+  <div class="form-group">
+    <label for="name">Doctor name</label>
+    <input id="name" name="name" type="text" class="form-control" value="$doctor.getName()">
+    <label for="specialty">Doctor's specialty</label>
+    <input id="specialty" name="specialty" type="text" class="form-control" value="$doctor.getSpecialty()">
+  </div>
+  <button type="submit" class="btn btn-success">Update</button>
+  <a href="/doctors/$doctor.getId()/delete"><button type="button" class="btn btn-danger">Delete</button></a>
+</form>

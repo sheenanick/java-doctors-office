@@ -1,0 +1,7 @@
+<h1>All doctors</h1>
+<ul>
+  #foreach ($doctor in $doctors)
+    <li><a href="/doctors/$doctor.getId()">$doctor.getName()</a> - $doctor.getSpecialty()</li>
+  #end
+</ul>
+<a href="/doctors/new"><button type="submit" class="btn btn-success">Add new doctor</button></a>

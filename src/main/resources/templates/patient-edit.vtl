@@ -1,0 +1,11 @@
+<h1>Edit $patient.getName()</h1>
+<form action="/patientedit" method="post">
+  <div class="form-group">
+    <input id="doctorId" name="doctorId" type="hidden" value="$doctor.getId()">
+    <input id="patientId" name="patientId" type="hidden" value="$patient.getId()">
+    <input id="patientName" name="patientName" type="text" value="$patient.getName()" class="form-control">
+    <input id="patientBirthdate" name="patientBirthdate" type="date" value="$patient.getBirthdate()" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-success">Update Patient Information</button>
+  <a href="/doctors/$doctor.getId()"><button type="button" class="btn btn-primary">Go back</button></a>
+</form>
