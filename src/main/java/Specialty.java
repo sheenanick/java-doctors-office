@@ -29,7 +29,7 @@ public class Specialty {
   }
 
   public static List<Specialty> all() {
-    String sql = "SELECT type FROM specialties";
+    String sql = "SELECT type, id FROM specialties";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Specialty.class);
     }
