@@ -1,20 +1,42 @@
 <h1>Welcome to our hospital</h1>
+<h2>All specialties:</h2>
+#if($specialties)
+<ul>
+  #foreach ($specialty in $specialties)
+  <li>$specialty.getType()</li>
+  #end
+</ul>
+#else
+  <p>Please insert a specialty</p>
+#end
+
 <h2>All doctors:</h2>
 #if($doctors)
 <ul>
   #foreach ($doctor in $doctors)
   <li><a href="/doctors/$doctor.getId()">$doctor.getName()</a></li>
   #end
+</ul>
 #else
   <p>We don't have any doctors</p>
 #end
 
+<h2>New Specialty:</h2>
+<form action="/specialties" method="post">
+  <label for="type">Specialty</label>
+  <input id="type" name="type" type="text">
+  <button type="submit" class="btn btn-success">Add Specialty</button>
+</form>
 <h2>New Doctor:</h2>
 <form action="/doctors" method="post">
   <label for="name">Doctor Name</label>
   <input id="name" name="name" type="text">
-  <label for="specialty">Doctor's specialty</label>
-  <input id="specialty" name="specialty" type="text">
+  <label for="specialtyId">Select doctor's specialty</label>
+  <select id="specialtyId" name="specialtyId" text="text">
+    #foreach($specialty in $specialties)
+      <option value="$specialty.getId()">$specialty.getType() - $specialty.getId()</option>
+    #end
+  </select>
   <button type="submit" class="btn btn-success">Add doctor</button>
 </form>
 <h2>New Patient:</h2>

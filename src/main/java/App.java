@@ -15,6 +15,7 @@ public class App {
     get("/", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       model.put("doctors", Doctors.all());
+      model.put("specialties", Specialty.all());
       model.put("template", "templates/index.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -41,16 +42,27 @@ public class App {
       Map<String, Object> model = new HashMap<String, Object>();
       Doctors doctor = Doctors.find(Integer.parseInt(request.params(":doctorId")));
       model.put("doctor", doctor);
+      model.put("specialties", Specialty.all());
       model.put("template", "templates/doctor-edit.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
     get("/doctors/:id/delete", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
-      Integer doctorId = Integer.parseInt(request.queryParams("doctorId"));
+      Integer doctorId = Integer.parseInt(request.params(":id"));
       Doctors doctor = Doctors.find(doctorId);
       doctor.delete();
       response.redirect("/doctors");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/doctors/:doctorId/patients/:patientId/delete", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Integer patientId = Integer.parseInt(request.params(":patientId"));
+      Integer doctorId = Integer.parseInt(request.params(":doctorId"));
+      Patients patient = Patients.find(patientId);
+      patient.delete();
+      response.redirect("/doctors/" + doctorId);
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
@@ -68,6 +80,7 @@ public class App {
       Integer doctorId = Integer.parseInt(request.queryParams("doctorId"));
       Doctors doctor = Doctors.find(doctorId);
       doctor.setName(request.queryParams("name"));
+      doctor.setSpecialty(Integer.parseInt(request.queryParams("specialtyId")));
       doctor.update();
       response.redirect("/doctors/" + doctorId);
       return new ModelAndView(model, layout);
@@ -94,8 +107,9 @@ public class App {
     post("/doctors", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       String name = request.queryParams("name");
-      String specialty = request.queryParams("specialty");
-      Doctors newDoctor = new Doctors(name, specialty);
+      int specialtyId = Integer.parseInt(request.queryParams("specialtyId"));
+      System.out.println(specialtyId);
+      Doctors newDoctor = new Doctors(name, specialtyId);
       newDoctor.save();
       response.redirect("/doctors");
       return new ModelAndView(model, layout);
@@ -111,7 +125,9 @@ public class App {
     get("/doctors/:id", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       Doctors doctor = Doctors.find(Integer.parseInt(request.params(":id")));
+      Specialty specialty = Specialty.find(doctor.getSpecialty());
       model.put("doctor", doctor);
+      model.put("specialty", specialty);
       model.put("template", "templates/doctor.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -124,6 +140,15 @@ public class App {
       Patients patient = new Patients(request.queryParams("name"), birthdate, doctorId);
       patient.save();
       response.redirect("/doctors/" + doctorId);
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/specialties", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      String type = request.queryParams("type");
+      Specialty specialty = new Specialty(type);
+      specialty.save();
+      response.redirect("/");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
   }

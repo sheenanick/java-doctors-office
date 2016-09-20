@@ -6,7 +6,11 @@
     <label for="name">Doctor name</label>
     <input id="name" name="name" type="text" class="form-control" value="$doctor.getName()">
     <label for="specialty">Doctor's specialty</label>
-    <input id="specialty" name="specialty" type="text" class="form-control" value="$doctor.getSpecialty()">
+    <select id="specialty" name="specialty" text="text">
+      #foreach($specialty in $specialties)
+        <option value="$specialty.getId()">$specialty.getType()</option>
+      #end
+    </select>
   </div>
   <button type="submit" class="btn btn-success">Update</button>
   <a href="/doctors/$doctor.getId()/delete"><button type="button" class="btn btn-danger">Delete</button></a>

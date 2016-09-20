@@ -4,20 +4,20 @@ import java.util.ArrayList;
 
 public class Doctors {
   private String name;
-  private String specialty;
+  private int specialtyId;
   private int id;
 
-  public Doctors(String name, String specialty){
+  public Doctors(String name, int specialtyId){
     this.name = name;
-    this.specialty = specialty;
+    this.specialtyId = specialtyId;
   }
 
   public String getName() {
     return name;
   }
 
-  public String getSpecialty() {
-    return specialty;
+  public int getSpecialty() {
+    return specialtyId;
   }
 
   public int getId() {
@@ -26,17 +26,17 @@ public class Doctors {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO doctors (name, specialty) VALUES (:name, :specialty)";
+      String sql = "INSERT INTO doctors (name, specialtyId) VALUES (:name, :specialtyId)";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", this.name)
-        .addParameter("specialty", this.specialty)
+        .addParameter("specialtyId", this.specialtyId)
         .executeUpdate()
         .getKey();
     }
   }
 
   public static List<Doctors> all() {
-    String sql = "SELECT id, name, specialty FROM doctors";
+    String sql = "SELECT id, name, specialtyId FROM doctors";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Doctors.class);
     }
@@ -76,16 +76,16 @@ public class Doctors {
     this.name = name;
   }
 
-  public void setSpecialty(String specialty) {
-    this.specialty = specialty;
+  public void setSpecialty(int specialtyId) {
+    this.specialtyId = specialtyId;
   }
 
   public void update() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE doctors SET name = :name, specialty = :specialty WHERE id = :id;";
+      String sql = "UPDATE doctors SET name = :name, specialtyId = :specialtyId WHERE id = :id;";
       con.createQuery(sql)
         .addParameter("name", this.name)
-        .addParameter("specialty", this.specialty)
+        .addParameter("specialtyId", this.specialtyId)
         .addParameter("id", this.id)
         .executeUpdate();
     }
@@ -93,7 +93,7 @@ public class Doctors {
 
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "DELETE FROM patients WHERE doctorId = :id;";
+      String sql = "DELETE FROM patients WHERE doctorsId = :id;";
       con.createQuery(sql)
       .addParameter("id", this.id)
       .executeUpdate();
